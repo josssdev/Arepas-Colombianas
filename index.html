@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arepas Colombianas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .bg-yellow-custom { background-color: #FCD116; }
+        .bg-blue-custom { background-color: #003087; }
+        .bg-red-custom { background-color: #C8102E; }
+        .text-blue-custom { color: #003087; }
+        .text-red-custom { color: #C8102E; }
+        .hidden { display: none; }
+        .card { transition: box-shadow 0.3s ease-in-out; }
+        .card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .rotate-3 { transform: rotate(3deg); }
+        .offline-logo {
+            width: 80px;
+            height: 60px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .offline-logo::before {
+            content: '';
+            flex: 2;
+            background-color: #FCD116;
+        }
+        .offline-logo::after {
+            content: '';
+            flex: 1;
+            background-color: #003087;
+        }
+        .offline-logo-red {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 33.33%;
+            background-color: #C8102E;
+        }
+    </style>
+</head>
+<body class="bg-yellow-50 min-h-screen">
+    <div id="offline-message" class="hidden fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
+        <div class="offline-logo mb-6 rounded">
+            <div class="offline-logo-red"></div>
+        </div>
+        <div class="flex items-center text-gray-800">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 4.243a9 9 0 01-12.728 0m0 0l2.829-2.829M3 21L5.464 18.536M5.464 5.464a9 9 0 012.829 2.829m0 0L5.464 5.464"></path>
+            </svg>
+            No tienes conexión
+        </div>
+    </div>
+
+    <div id="welcome-page" class="min-h-screen flex items-center justify-center">
+        <div class="text-center space-y-6 p-8 bg-white rounded-lg shadow-lg">
+            <h1 class="text-4xl font-bold text-blue-custom">Bienvenido a Arepas Colombianas</h1>
+            <p class="text-xl text-red-custom">¡Las mejores arepas de la ciudad!</p>
+            <form id="name-form" class="space-y-4">
+                <input id="name-input" type="text" placeholder="Ingresa tu nombre" class="w-full max-w-xs mx-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="bg-yellow-custom text-blue-custom hover:bg-yellow-400 font-bold py-2 px-4 rounded">
+                    Continuar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="main-page" class="hidden min-h-screen p-6">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl font-bold text-blue-custom">¿YA LAS PROBASTE?</h1>
+                <div class="relative">
+                    <h2 class="text-5xl font-black">AREPAS COLOMBIANAS</h2>
+                    <div class="absolute -right-4 top-0 bg-yellow-custom px-4 py-1 rotate-3">
+                        <span class="text-2xl font-bold italic">¡Riquísimas!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="greeting" class="text-xl font-semibold text-blue-custom text-center"></div>
+
+            <div class="relative max-w-md mx-auto">
+                <input id="search-input" type="text" placeholder="Buscar arepas..." class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="absolute left-3 top-3 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+
+            <div id="arepas-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+
+            <div class="text-center text-blue-custom font-semibold">
+                A 7.5 SERVICIO A DOMICILIO A PARTIR DE 3
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const arepas = [
+            {
+                id: 1,
+                name: 'Arepa de Pollo',
+                description: 'Deliciosa arepa rellena de pollo desmechado con aguacate',
+                image: '/Arepas/images/arepapollo.jpg',
+            },
+            {
+                id: 2,
+                name: 'Arepa de Carne',
+                description: 'Arepa rellena de carne desmechada con queso',
+                image: '/placeholder.svg?height=200&width=200'
+            },
+            {
+                id: 3,
+                name: 'Arepa de Queso',
+                description: 'Arepa tradicional rellena de queso derretido',
+                image: '/placeholder.svg?height=200&width=200'
+            },
+            {
+                id: 4,
+                name: 'Arepa Mixta',
+                description: 'Arepa rellena de pollo y carne con queso',
+                image: '/placeholder.svg?height=200&width=200'
+            },
+            {
+                id: 4,
+                name: 'Arepa Mixta',
+                description: 'Arepa rellena de pollo y carne con queso',
+                image: '/placeholder.svg?height=200&width=200'
+            }
+        ];
+
+        const welcomePage = document.getElementById('welcome-page');
+        const mainPage = document.getElementById('main-page');
+        const nameForm = document.getElementById('name-form');
+        const nameInput = document.getElementById('name-input');
+        const greeting = document.getElementById('greeting');
+        const searchInput = document.getElementById('search-input');
+        const arepasGrid = document.getElementById('arepas-grid');
+        const offlineMessage = document.getElementById('offline-message');
+
+        // Check if name is already stored
+        const storedName = localStorage.getItem('userName');
+        if (storedName) {
+            showMainPage(storedName);
+        }
+
+        nameForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = nameInput.value.trim();
+            if (name) {
+                localStorage.setItem('userName', name);
+                showMainPage(name);
+            }
+        });
+
+        function showMainPage(name) {
+            welcomePage.classList.add('hidden');
+            mainPage.classList.remove('hidden');
+            greeting.textContent = `¡Hola ${name}! Bienvenido a nuestra tienda de arepas.`;
+            renderArepas(arepas);
+        }
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredArepas = arepas.filter(arepa => 
+                arepa.name.toLowerCase().includes(query)
+            );
+            renderArepas(filteredArepas);
+        });
+
+        function renderArepas(arepasToRender) {
+            arepasGrid.innerHTML = '';
+            arepasToRender.forEach(arepa => {
+                const card = document.createElement('div');
+                card.className = 'card bg-white rounded-lg overflow-hidden shadow-md';
+                card.innerHTML = `
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold text-blue-custom">${arepa.name}</h3>
+                    </div>
+                    <img src="${arepa.image}" alt="${arepa.name}" class="w-full h-48 object-cover">
+                    <div class="p-4 hidden">
+                        <p class="text-gray-600">${arepa.description}</p>
+                        <button class="mt-4 w-full bg-blue-custom text-white hover:bg-blue-700 font-bold py-2 px-4 rounded" >
+                            Hacer Pedido <i class="fa-regular fa-paper-plane"></i>
+                        </button> 
+                    </div>
+                `;
+                card.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleWhatsApp(arepa.name);
+                });
+                card.addEventListener('click', () => {
+                    const details = card.querySelector('div:last-child');
+                    details.classList.toggle('hidden');
+                });
+                arepasGrid.appendChild(card);
+            });
+        }
+
+        function handleWhatsApp(arepaName) {
+            const message = `¡Hola! Me gustaría ordenar una ${arepaName}`;
+            window.open(`https://wa.me/1234567890?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Offline/Online event handlers
+        window.addEventListener('online', () => {
+            offlineMessage.classList.add('hidden');
+        });
+
+        window.addEventListener('offline', () => {
+            offlineMessage.classList.remove('hidden');
+        });
+
+        // Check initial state
+        if (!navigator.onLine) {
+            offlineMessage.classList.remove('hidden');
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
