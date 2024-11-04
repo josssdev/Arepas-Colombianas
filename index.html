@@ -6,6 +6,8 @@
     <title>Arepas Colombianas</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="icon.png" type="image/png">
+
 
     <style>
         .bg-yellow-custom { background-color: #FCD116; }
@@ -94,7 +96,7 @@
             <div id="arepas-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
 
             <div class="text-center text-blue-custom font-semibold">
-                A 7.5 SERVICIO A DOMICILIO A PARTIR DE 3
+                A 1.50 SERVICIO A DOMICILIO A PARTIR DE 3
             </div>
         </div>
     </div>
@@ -110,27 +112,21 @@
             {
                 id: 2,
                 name: 'Arepa de Carne',
-                description: 'Arepa rellena de carne desmechada con queso',
-                image: '/placeholder.svg?height=200&width=200'
+                description: 'Arepa rellena de carne desmechada',
+                image: 'arepacarne.jpg'
             },
             {
                 id: 3,
                 name: 'Arepa de Queso',
                 description: 'Arepa tradicional rellena de queso derretido',
-                image: '/placeholder.svg?height=200&width=200'
+                image: 'p.jpg'
             },
             {
                 id: 4,
                 name: 'Arepa Mixta',
                 description: 'Arepa rellena de pollo y carne con queso',
-                image: '/placeholder.svg?height=200&width=200'
-            },
-            {
-                id: 4,
-                name: 'Arepa Mixta',
-                description: 'Arepa rellena de pollo y carne con queso',
-                image: '/placeholder.svg?height=200&width=200'
-            }
+                image: 'p.jpg'
+            },      
         ];
 
         const welcomePage = document.getElementById('welcome-page');
@@ -202,8 +198,8 @@
         }
 
         function handleWhatsApp(arepaName) {
-            const message = `¡Hola! Me gustaría ordenar una ${arepaName}`;
-            window.open(`https://wa.me/1234567890?text=${encodeURIComponent(message)}`, '_blank');
+            const message = `me gustaría ordenar una ${arepaName}`;
+            window.open(`https://wa.me/19163183219?text=Hola!%20Arepas%20Colombianas${encodeURIComponent(message)}`, '_blank');
         }
 
         // Offline/Online event handlers
