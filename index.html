@@ -229,7 +229,7 @@
             });
         }
     </script>
-    
+
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
@@ -253,5 +253,22 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
       </script>
+
+       <script type="module">
+       const messaging = firebase.messaging();
+
+       messaging.requestPermission()
+       .then(() => {
+        console.log('Permiso de notificaciones otorgado');
+        return messaging.getToken();
+        })
+          .then((token) => {
+        console.log('Token de notificación:', token);
+        // Guarda el token para enviar notificaciones
+         })
+          .catch((error) => {
+            console.error('Permiso de notificación denegado', error);
+           });
+        </script>
 </body>
 </html>
