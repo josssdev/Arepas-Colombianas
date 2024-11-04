@@ -229,5 +229,29 @@
             });
         }
     </script>
+    
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDQsd-meQdZ0vdO5Unt8DZsWPo5OBZpF2k",
+          authDomain: "arepas-colombianas.firebaseapp.com",
+          projectId: "arepas-colombianas",
+          storageBucket: "arepas-colombianas.firebasestorage.app",
+          messagingSenderId: "351891003007",
+          appId: "1:351891003007:web:29cc27f6917527fc96114a",
+          measurementId: "G-39DBDXDGCB"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
 </body>
 </html>
